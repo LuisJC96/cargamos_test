@@ -9,6 +9,23 @@ class StoreResource(Resource):
     def get(self):
         try:
             """
+            Obtains a Product given the corresponding filters on the JSON
+            json example:
+            {
+                "store_name":"Buy and sell books",
+            }
+            :returns example:
+            {
+                "success": true,
+                "stores":[
+                    {
+                        "store_id":1,
+                        "store_name":"Buy and sell books",
+                        "store_address": "1st Avenue",
+                    },
+                    ...
+                ]
+            }
             """
             store = Store()
             json = request.json
@@ -24,6 +41,13 @@ class StoreResource(Resource):
     def post(self):
         try:
             """
+            inserts a store on the DB given by the JSON, for more information of the model refer to this project on
+            model/store
+            :returns example:
+            {
+                "success": True,
+                "product": store_of_product
+            }
             """
             store = Store()
             json = request.json
@@ -35,6 +59,13 @@ class StoreResource(Resource):
     def put(self):
         try:
             """
+            updates a store on the DB with the given JSON values and filtered by store_id, for more information 
+            of the model refer to this project on model/store
+            :returns example:
+            {
+                "success": True,
+                "product": store_of_product
+            }
             """
             store = Store()
             json = request.json

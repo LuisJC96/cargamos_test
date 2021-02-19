@@ -47,7 +47,7 @@ class ProductResource(Resource):
             :returns example:
             {
                 "success": True,
-                "prduct": model_of_product
+                "product": model_of_product
             }
             """
             product = Product()
