@@ -7,9 +7,28 @@ from flask_restful import Resource
 
 class ProductResource(Resource):
     def get(self):
+        """
+        Obtains a Product given the corresponding filters on the JSON
+        json example:
+        {
+            "product_name":"book",
+            "product_cost":300
+        }
+        :returns example:
+        {
+            "success": true,
+            "products":[
+                {
+                    "product_id":1,
+                    "product_name":"Book",
+                    "product_description": "It's a book",
+                    "product_cost":100
+                },
+                ...
+            ]
+        }
+        """
         try:
-            """
-            """
             product = Product()
             json = request.json
             ans = []
@@ -23,6 +42,13 @@ class ProductResource(Resource):
     def post(self):
         try:
             """
+            inserts a product on the DB given by the JSON, for more information of the model refer to this project on
+            model/product
+            :returns example:
+            {
+                "success": True,
+                "prduct": model_of_product
+            }
             """
             product = Product()
             json = request.json
@@ -34,6 +60,13 @@ class ProductResource(Resource):
     def put(self):
         try:
             """
+            updates a product on the DB given by the JSON and the product_id, for more information of the model refer 
+            to this project on model/product
+            :returns example:
+            {
+                "success": True,
+                "prduct": model_of_product
+            }
             """
             product = Product()
             json = request.json
