@@ -1,6 +1,4 @@
-import sqlalchemy as sa
 import yaml
-import pandas as pd
 import psycopg2
 import psycopg2.extras
 import os.path
