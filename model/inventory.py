@@ -78,11 +78,11 @@ class Inventory:
                 'store_id': store_id,
                 'quantity': quantity
             }
-            sqlcon.insert_data(data, self.Table)
+            return sqlcon.insert_data(data, self.Table)
         else:
-            conditions = conditions_builder({'product_store_id': values['product_store_id']})
+            print(values[0]['quantity'])
+            conditions = conditions_builder({'product_store_id': str(values[0]['product_store_id'])})
             data = {
-                'quantity': quantity+int(values[quantity])
+                'quantity': quantity + int(values[0]['quantity'])
             }
-            sqlcon.update_data(data, self.Table, conditions=conditions)
-        return {'success': True}
+            return sqlcon.update_data(data, self.Table, conditions=conditions)
