@@ -40,7 +40,7 @@ class SqlConnector:
         self.cursor.execute(query)
         self.connection.commit()
 
-    def insert_data(self, values, table_name):
+    def insert_data(self, values, table_name, returning=False, returning_field=None):
         # Creating string to insert values
         query = "INSERT INTO " + table_name + ' ('
         query += ', '.join(values.keys())
@@ -50,10 +50,14 @@ class SqlConnector:
                 query += '\'' + str(v) + '\'' + ', '
             else:
                 query += str(v) + ', '
-        query = query[:-2] + ');'
-        print(query)
+        query = query[:-2] + ')'
+        if returning:
+            query += ' RETURNING ' + returning_field
+            self.cursor.execute(query)
+            returning_value = self.cursor.fetchone()[returning_field]
+            self.connection.commit()
+            return returning_value
         self.cursor.execute(query)
-        self.connection.commit()
 
     def get_data(self, columns, table_name, conditions=[]):
         query = 'SELECT '
