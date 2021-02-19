@@ -5,11 +5,17 @@ from flask import request
 from flask_restful import Resource
 
 
-class AddStockResource(Resource):
+class ModifyStockResource(Resource):
     def post(self):
         try:
             """
-            adds x quantity of the y product in the given z store
+            adds or deminishes x quantity of the y product in the given z store
+            JSON example:
+            {
+                "store_id":123,
+                "product_id":234,
+                "quantity":1(positive values if wants to be added, negative if diminished)
+            }
             :returns example:
             {
                 "success": True,
