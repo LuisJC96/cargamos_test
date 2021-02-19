@@ -24,6 +24,6 @@ class ModifyStockResource(Resource):
             inventory = Inventory()
             json = request.json
             inventory.modify_stock(json['store_id'], json['product_id'], json['quantity'])
-            return {'success': True, 'product': json}
+            return {'success': True}
         except Exception as e:
             return {'success': False, 'Error': str(e)}
