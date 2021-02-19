@@ -1,4 +1,5 @@
 from persistance.sqlconn import SqlConnector
+from utilities.string_builders import conditions_builder
 
 
 class Inventory:
@@ -66,3 +67,22 @@ class Inventory:
                 general_inventory[value['store_id']]['store_inventory'].append(
                     {value['product_name']: value['quantity']})
         return general_inventory
+
+    def modify_stock(self, store_id, product_id, quantity):
+        sqlcon = SqlConnector()
+        conditions = conditions_builder({'store_id': store_id, 'product_id': product_id})
+        values = sqlcon.get_data(self.columns, self.Table, conditions)
+        if len(values) == 0:
+            data = {
+                'product_id': product_id,
+                'store_id': store_id,
+                'quantity': quantity
+            }
+            sqlcon.insert_data(data, self.Table)
+        else:
+            conditions = conditions_builder({'product_store_id': values['product_store_id']})
+            data = {
+                'quantity': quantity+int(values[quantity])
+            }
+            sqlcon.update_data(data, self.Table, conditions=conditions)
+        return {'success': True}
