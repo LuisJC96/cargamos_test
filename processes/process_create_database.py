@@ -1,6 +1,5 @@
 import psycopg2
 import yaml
-import os
 
 conf_file = './configurations.yaml'
 with open(conf_file, 'r') as f:
@@ -20,10 +19,10 @@ cursor.execute(query)
 tables = [
     """
     create table product(
-	    product_id serial primary key,
-	    product_name VARCHAR(100) not null,
-	    product_description VARCHAR(255),
-	    product_cost int not null
+        product_id serial primary key,
+        product_name VARCHAR(100) not null,
+        product_description VARCHAR(255),
+        product_cost int not null
     );
     """,
     """
@@ -43,6 +42,35 @@ tables = [
         product_store_id serial primary key,
         product_id int references product(product_id),
         store_id int references store(store_id),
+        quantity int
+    );
+    """,
+    """
+    create table customer(
+        customer_id serial primary key,
+        first_name varchar(50) not null,
+        last_name varchar(100) not null,
+        customer_phone_number varchar(20),
+        customer_mail varchar(50),
+        customer_street varchar(100),
+        customer_city varchar(50),
+        customer_state varchar(50),
+        customer_zip_code varchar(20)
+    );
+    """,
+    """
+    create table orders(
+        order_id serial primary key,
+        customer_id int references customer(customer_id),
+        store_id int references store(store_id),
+        order_date date
+    );
+    """,
+    """
+    create table order_products(
+        order_product_id serial primary key,
+        order_id int references orders(order_id),
+        product_id int references product(product_id),
         quantity int
     );
     """
