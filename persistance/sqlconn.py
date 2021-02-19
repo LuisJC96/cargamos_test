@@ -4,8 +4,6 @@ import psycopg2.extras
 import os.path
 import json
 
-RETRIES = 3
-
 
 class SqlConnector:
 
@@ -28,7 +26,7 @@ class SqlConnector:
                 query += str(k) + '=' + '\'' + v + '\','
             else:
                 query += str(k) + '=' + str(v) + ','
-        query = query[:-1]+' WHERE ' + ' AND '.join(conditions) if len(conditions) > 0 else ''
+        query = query[:-1] + ' WHERE ' + ' AND '.join(conditions) if len(conditions) > 0 else ''
         self.cursor.execute(query)
         self.connection.commit()
 
@@ -39,10 +37,10 @@ class SqlConnector:
         query += ') VALUES ('
         for v in values.values():
             if isinstance(v, str):
-                query += '\''+str(v)+'\''+', '
+                query += '\'' + str(v) + '\'' + ', '
             else:
                 query += str(v) + ', '
-        query = query[:-2]+');'
+        query = query[:-2] + ');'
         print(query)
         self.cursor.execute(query)
         self.connection.commit()
@@ -50,7 +48,7 @@ class SqlConnector:
     def get_data(self, columns, table_name, conditions=[]):
         query = 'SELECT '
         query += ', '.join(columns)
-        query += ' FROM '+table_name
+        query += ' FROM ' + table_name
         where = ' WHERE ' + ' AND '.join(conditions) if len(conditions) > 0 else ''
         query += where
         self.cursor.execute(query)
@@ -62,10 +60,10 @@ class SqlConnector:
         ans = json.dumps(self.cursor.fetchall())
         return json.loads(ans)
 
-    def insert_query(self,query):
+    def insert_query(self, query):
         self.cursor.execute(query)
         self.connection.commit()
 
-    def update_query(self,query):
+    def update_query(self, query):
         self.cursor.execute(query)
         self.connection.commit()
