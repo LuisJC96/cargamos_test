@@ -9,7 +9,13 @@ class Store:
         self.columns = [
             'store_id',
             'store_name',
-            'store_address']
+            'store_street',
+            'store_mail',
+            'store_phone_number',
+            'store_city',
+            'store_state',
+            'store_zip_code'
+        ]
 
     def insert_store(self, values):
         sqlconn = SqlConnector()
