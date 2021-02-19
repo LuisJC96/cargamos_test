@@ -3,6 +3,15 @@ import psycopg2
 import psycopg2.extras
 import os.path
 import json
+from datetime import date
+
+
+def date_normalizer(values):
+    for value in values:
+        for k, v in value.items():
+            if isinstance(v, date):
+                value[k] = str(date)
+    return values
 
 
 class SqlConnector:
@@ -19,6 +28,7 @@ class SqlConnector:
 
     def update_data(self, values, table_name, conditions=[]):
         # Creating string to update a value
+        print('gets here')
         query = 'UPDATE ' + table_name
         query += ' SET '
         for k, v in values.items():
@@ -51,13 +61,14 @@ class SqlConnector:
         query += ' FROM ' + table_name
         where = ' WHERE ' + ' AND '.join(conditions) if len(conditions) > 0 else ''
         query += where
+        print(query)
         self.cursor.execute(query)
-        ans = json.dumps(self.cursor.fetchall())
+        ans = json.dumps(date_normalizer(self.cursor.fetchall()))
         return json.loads(ans)
 
     def get_query(self, query):
         self.cursor.execute(query)
-        ans = json.dumps(self.cursor.fetchall())
+        ans = json.dumps(date_normalizer(self.cursor.fetchall()))
         return json.loads(ans)
 
     def insert_query(self, query):
