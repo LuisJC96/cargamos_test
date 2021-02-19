@@ -26,11 +26,8 @@ class Order:
 
     def insert_order(self, values):
         sqlconn = SqlConnector()
-        values['date'] = date.today().strftime("%Y-%m-%d")
-        order_product = OrderProduct()
-        sqlconn.insert_data(values, self.Table)
-        for product in values['products']:
-            order_product.insert_order_product(product)
+        values['order_date'] = date.today().strftime("%Y-%m-%d")
+        return sqlconn.insert_data(values, self.Table, returning=True, returning_field='order_id')
 
     def get_order_by_order_id(self, order_id):
         sqlcon = SqlConnector()
