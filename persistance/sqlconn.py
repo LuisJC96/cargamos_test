@@ -28,7 +28,6 @@ class SqlConnector:
 
     def update_data(self, values, table_name, conditions=[]):
         # Creating string to update a value
-        print('gets here')
         query = 'UPDATE ' + table_name
         query += ' SET '
         for k, v in values.items():
@@ -65,7 +64,6 @@ class SqlConnector:
         query += ' FROM ' + table_name
         where = ' WHERE ' + ' AND '.join(conditions) if len(conditions) > 0 else ''
         query += where
-        print(query)
         self.cursor.execute(query)
         ans = json.dumps(date_normalizer(self.cursor.fetchall()))
         return json.loads(ans)
