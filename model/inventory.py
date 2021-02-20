@@ -71,18 +71,23 @@ class Inventory:
     def modify_stock(self, store_id, product_id, quantity):
         sqlcon = SqlConnector()
         conditions = conditions_builder({'store_id': store_id, 'product_id': product_id})
-        values = sqlcon.get_data(self.columns, self.Table, conditions)
-        if len(values) == 0:
-            data = {
-                'product_id': product_id,
-                'store_id': store_id,
-                'quantity': quantity
-            }
-            return sqlcon.insert_data(data, self.Table)
-        else:
-            print(values[0]['quantity'])
-            conditions = conditions_builder({'product_store_id': str(values[0]['product_store_id'])})
-            data = {
-                'quantity': quantity + int(values[0]['quantity'])
-            }
-            return sqlcon.update_data(data, self.Table, conditions=conditions)
+        try:
+            values = sqlcon.get_data(self.columns, self.Table, conditions)
+            if len(values) == 0:
+                data = {
+                    'product_id': product_id,
+                    'store_id': store_id,
+                    'quantity': quantity
+                }
+                sqlcon.insert_data(data, self.Table)
+                return {'success': True}
+            else:
+                print(values[0]['quantity'])
+                conditions = conditions_builder({'product_store_id': str(values[0]['product_store_id'])})
+                data = {
+                    'quantity': quantity + int(values[0]['quantity'])
+                }
+                sqlcon.update_data(data, self.Table, conditions=conditions)
+                return {'success': True}
+        except Exception as e:
+            return {'success': False}
