@@ -57,6 +57,7 @@ class SqlConnector:
             self.connection.commit()
             return returning_value
         self.cursor.execute(query)
+        self.connection.commit()
 
     def get_data(self, columns, table_name, conditions=[]):
         query = 'SELECT '
